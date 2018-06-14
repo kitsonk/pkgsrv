@@ -1,0 +1,74 @@
+{
+  "name": "pkgsrv",
+  "version": "1.0.0",
+  "description": "A server providing source packages based on semantic versioning",
+  "main": "index.js",
+  "bin": {
+    "pkgsrv": "./index.js"
+  },
+  "scripts": {
+    "build:lib": "tsc -p tsconfig.lib.json",
+    "build:tests": "tsc -p tsconfig.tests.json",
+    "clean": "rimraf output lib *.log",
+    "copy": "run-p copy:*",
+    "copy:fixtures": "cpx \"tests/fixtures/**/*\" output/tests/fixtures",
+    "copy:package": "cpx package.json output",
+    "copy:static": "cpx \"{src,tests}/**/*.{js,html,css,json}\" output",
+    "precommit": "lint-staged",
+    "prepare": "run-p build:lib",
+    "test": "run-s clean build:tests copy test:intern",
+    "test:intern": "intern"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kitsonk/pkgsrv.git"
+  },
+  "author": "Kitson P. Kelly <me@kitsonkelly.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kitsonk/pkgsrv/issues"
+  },
+  "homepage": "https://github.com/kitsonk/pkgsrv#readme",
+  "files": [
+    "index.js",
+    "LICENSE",
+    "README.md",
+    "lib/"
+  ],
+  "dependencies": {
+    "koa": "^2.5.1",
+    "tslib": "^1.9.2",
+    "winston": "^3.0.0",
+    "yargs": "^11.0.0"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.1.4",
+    "@types/chai-as-promised": "^7.1.0",
+    "@types/koa": "^2.0.46",
+    "@types/node": "^8.9.5",
+    "@types/sinon": "^5.0.1",
+    "@types/sinon-chai": "^3.2.0",
+    "@types/yargs": "^11.0.0",
+    "chai-as-promised": "^7.1.1",
+    "cpx": "^1.5.0",
+    "husky": "^0.14.3",
+    "intern": "^4.2.0",
+    "lint-staged": "^7.2.0",
+    "npm-run-all": "^4.1.3",
+    "prettier": "^1.13.5",
+    "rimraf": "^2.6.2",
+    "sinon": "^6.0.0",
+    "sinon-chai": "^3.2.0",
+    "ts-node": "^6.1.1",
+    "tslint": "^5.10.0",
+    "typescript": "^2.9.2"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "tabWidth": 4,
+    "useTabs": true,
+    "parser": "typescript",
+    "printWidth": 120,
+    "arrowParens": "always"
+  }
+}
