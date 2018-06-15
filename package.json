@@ -37,6 +37,8 @@
   ],
   "dependencies": {
     "koa": "^2.5.1",
+    "logform": "^1.9.0",
+    "semver": "^5.5.0",
     "tslib": "^1.9.2",
     "winston": "^3.0.0",
     "yargs": "^11.0.0"
@@ -45,7 +47,9 @@
     "@types/chai": "^4.1.4",
     "@types/chai-as-promised": "^7.1.0",
     "@types/koa": "^2.0.46",
+    "@types/logform": "^1.2.0",
     "@types/node": "^8.9.5",
+    "@types/semver": "^5.5.0",
     "@types/sinon": "^5.0.1",
     "@types/sinon-chai": "^3.2.0",
     "@types/yargs": "^11.0.0",
