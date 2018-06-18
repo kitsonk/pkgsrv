@@ -3,7 +3,10 @@ import logger, { logToConsole, logToFile } from './logger';
 import Koa from 'koa';
 import { create as createFetchModule } from './fetchModule';
 import logRequest from './logRequest';
-import packageJson from '../package.json';
+
+const packageJson = {
+	version: '1.0.0'
+};
 
 const argv = yargs
 	.pkgConf('pkgsrv')

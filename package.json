@@ -35,7 +35,7 @@
     "index.js",
     "LICENSE",
     "README.md",
-    "lib/"
+    "lib/**/*"
   ],
   "dependencies": {
     "koa": "^2.5.1",
