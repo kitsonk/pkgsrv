@@ -5,6 +5,7 @@
     "module": "commonjs",
     "noUnusedLocals": true,
     "removeComments": true,
+    "resolveJsonModule": true,
     "target": "es2017",
     "strict": true,
     "types": [

@@ -9,7 +9,7 @@ import logger from './logger';
 async function logRequest(ctx: Context, next: () => Promise<any>) {
 	const start = Date.now();
 	await next();
-	logger.info(`${ctx.method} ${ctx.url} - ${Date.now() - start}`);
+	logger.info(`${ctx.method} ${ctx.url} - ${Date.now() - start}ms`);
 }
 
 export default logRequest;

@@ -9,7 +9,8 @@
   "scripts": {
     "build:lib": "tsc -p tsconfig.lib.json",
     "build:tests": "tsc -p tsconfig.tests.json",
-    "clean": "rimraf output lib *.log",
+    "ci": "run-s clean build:tests copy test:intern test:codecov",
+    "clean": "rimraf coverage output lib *.log",
     "copy": "run-p copy:*",
     "copy:fixtures": "cpx \"tests/fixtures/**/*\" output/tests/fixtures",
     "copy:package": "cpx package.json output",
@@ -17,6 +18,7 @@
     "precommit": "lint-staged",
     "prepare": "run-p build:lib",
     "test": "run-s clean build:tests copy test:intern",
+    "test:codecov": "codecov",
     "test:intern": "intern"
   },
   "repository": {
@@ -54,6 +56,7 @@
     "@types/sinon-chai": "^3.2.0",
     "@types/yargs": "^11.0.0",
     "chai-as-promised": "^7.1.1",
+    "codecov": "^3.0.2",
     "cpx": "^1.5.0",
     "husky": "^0.14.3",
     "intern": "^4.2.0",

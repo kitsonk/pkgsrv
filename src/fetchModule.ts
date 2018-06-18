@@ -2,8 +2,9 @@ import { createReadStream } from 'fs';
 import { Context } from 'koa';
 import { extname, join } from 'path';
 import logger from './logger';
+import { get } from './pkgConfig';
 import { readdir, stat } from './util';
-import { maxVersion, resolveVersion } from './versionUtil';
+import { latestVersion, maxVersion, resolveVersion } from './versionUtil';
 
 /**
  * Helper function to stat a path and determine if it is a directory
@@ -46,13 +47,17 @@ export function create(basePath: string) {
 		const splitPath = ctx.path.split('/');
 		ctx.assert(splitPath.length > 2 && splitPath[0] === '', 400);
 		const [, requestedPackage, ...moduleArray] = splitPath;
-		const moduleName = moduleArray.join('/');
-		const [pkgName, pkgSemver] = requestedPackage.split('@');
+		const [pkgName, pkgSemverOrTag] = requestedPackage.split('@') as [string, string | undefined];
 		const availableVersions = await getVersions(join(basePath, pkgName));
 		ctx.assert(availableVersions.length, 404);
-		const version = pkgSemver ? resolveVersion(availableVersions, pkgSemver) : maxVersion(availableVersions);
+		const config = await get(basePath, pkgName);
+		const version = pkgSemverOrTag
+			? resolveVersion(availableVersions, config && config.tags, pkgSemverOrTag)
+			: config
+				? latestVersion(availableVersions, config.tags)
+				: maxVersion(availableVersions);
 		ctx.assert(version, 400);
-		const fpath = join(basePath, pkgName, version!, moduleName);
+		const fpath = join(basePath, pkgName, version!, ...moduleArray);
 		logger.info(`Resolved path: ${fpath}`);
 		const fstat = await stat(fpath);
 

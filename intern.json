@@ -8,6 +8,11 @@
         "./output/src/**/*.js"
     ],
 
+    "reporters+": [
+        "pretty",
+        "jsoncoverage"
+    ],
+
     "configs": {
         "local": {}
     }
