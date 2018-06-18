@@ -18,7 +18,7 @@
     "precommit": "lint-staged",
     "prepare": "run-p build:lib",
     "test": "run-s clean build:tests copy test:intern",
-    "test:codecov": "codecov",
+    "test:codecov": "codecov --file=coverage/coverage-final.json --disable=gcov",
     "test:intern": "intern"
   },
   "repository": {
