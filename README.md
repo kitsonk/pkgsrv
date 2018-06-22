@@ -20,7 +20,7 @@ $ npm install pkgsrv
 |`-l` or `--logs`|`false`|Log events to a file.|
 |`-p` or `--port`|3000|The port that the server should listen on.|
 |`-s` or `--subdomain`| |Send logs to Loggly on the provided subdomain.|
-|`-t` or `--token`| |Autorisation token to utilise when sending log events to Loggly.|
+|`-t` or `--token`| |Authorisation token to utilise when sending log events to Loggly.|
 
 ## How it works
 
