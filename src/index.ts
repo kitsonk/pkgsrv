@@ -1,8 +1,9 @@
 import yargs from 'yargs';
 import logger, { logToConsole, logToFile, logToLoggly } from './logger';
 import Koa from 'koa';
-import logRequest from './logRequest';
-import router, { setBasePath } from './router';
+import config from './config';
+import logRequest from './middleware/logRequest';
+import router from './router';
 
 const packageJson: { version: string } = require('../package.json');
 
@@ -46,21 +47,23 @@ const argv = yargs
 
 // Interpret arguments
 const port: number = argv['p'];
-const basePath: string = argv['b'];
 const token: string | undefined = argv['t'];
 const subdomain: string | undefined = argv['s'];
 const flagLogToFile: boolean = argv['l'];
-const flagDebug: boolean = argv['d'];
+
+// Update configuration
+config.basePath = argv['b'];
+config.debug = argv['d'];
 
 // Setup logging
 if (flagLogToFile) {
 	logToFile();
 }
 if (process.env.NODE_ENV !== 'production') {
-	logToConsole(flagDebug);
+	logToConsole();
 }
 if (token && subdomain) {
-	logToLoggly(token, subdomain, ['pkgsrv'], flagDebug);
+	logToLoggly(token, subdomain, ['pkgsrv']);
 }
 
 logger.info(`Startup - pkgsrv@${packageJson.version}`);
@@ -70,7 +73,6 @@ const app = new Koa();
 
 // Setup middleware
 app.use(logRequest);
-setBasePath(basePath);
 app.use(router.routes());
 app.use(router.allowedMethods());
 
@@ -78,4 +80,4 @@ app.use(router.allowedMethods());
 app.listen(port);
 
 logger.info(`Listening on port: ${port}`);
-logger.verbose(`Base path: ${basePath}`);
+logger.verbose(`Base path: ${config.basePath}`);

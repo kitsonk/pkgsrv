@@ -1,6 +1,36 @@
+import { join } from 'path';
 import { coerce, maxSatisfying, SemVer } from 'semver';
 import logger from './logger';
 import { Tags } from './pkgConfig';
+import { readdir, stat } from './util';
+
+/**
+ * Helper function to stat a path and determine if it is a directory
+ * @param path The path to determine if it is a directory
+ */
+async function isDirectory(path: string): Promise<boolean> {
+	return (await stat(path)).isDirectory();
+}
+
+/**
+ * Resolve to an array of semantic versions of a package from the file system
+ * @param path The path of which to return the version sub directories
+ */
+export async function getVersions(path: string): Promise<string[]> {
+	let files: string[] = [];
+	try {
+		files = await readdir(path);
+	} catch (e) {
+		logger.error(`No such file or directory: ${path}`);
+	}
+	const directories: string[] = [];
+	for (let i = 0; i < files.length; i++) {
+		if (await isDirectory(join(path, files[i]))) {
+			directories.push(files[i]);
+		}
+	}
+	return directories;
+}
 
 /**
  * Return the latest version based on the provided tags or return `null`

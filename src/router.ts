@@ -1,20 +1,20 @@
 import Router from 'koa-router';
-import fetchModule, { setBasePath as fetchModuleSetBasePath } from './fetchModule';
-
-export function setBasePath(value: string): void {
-	fetchModuleSetBasePath(value);
-}
+import versions from './api/versions';
+import negotiateContent from './middleware/negotiateContent';
+import fetchModule from './fetchModule';
 
 const router = new Router();
+const apiVersions = new Router();
+
+apiVersions.get('/@:ns/:pkg', versions).get('/:pkg', versions);
 
 router
 	.get('/', async (ctx) => {
-		ctx.body = 'Hello World!';
+		ctx.body = { hello: 'world' };
 	})
-	.get('/api/:command*', async (ctx) => {
-		ctx.body = JSON.stringify(ctx.params);
-	})
-	.get('/@:ns/:pkg/:module*', fetchModule)
-	.get('/:pkg/:module*', fetchModule);
+	.use('/api*', negotiateContent)
+	.use('/api/versions', apiVersions.routes(), apiVersions.allowedMethods())
+	.get('/@:ns/:pkg/:mid*', fetchModule)
+	.get('/:pkg/:mid*', fetchModule);
 
 export default router;

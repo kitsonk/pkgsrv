@@ -1,5 +1,5 @@
 import { Context } from 'koa';
-import logger from './logger';
+import logger from '../logger';
 
 /**
  * Logs requests, providing the method, url and time in milliseconds to handle the request

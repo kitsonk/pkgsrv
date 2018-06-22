@@ -1,5 +1,6 @@
 import winston from 'winston';
 import 'winston-loggly-bulk';
+import config from './config';
 
 const logger = new winston.Logger({ level: 'info' });
 
@@ -12,13 +13,13 @@ function formatter(options: any): string {
 	);
 }
 
-export function logToConsole(debug = false): void {
+export function logToConsole(): void {
 	logger.add(winston.transports.Console, {
 		timestamp() {
 			return new Date().toISOString();
 		},
 		formatter,
-		level: debug ? 'debug' : 'info'
+		level: config.debug ? 'debug' : 'info'
 	});
 }
 
@@ -27,11 +28,11 @@ export function logToFile(): void {
 	logger.add(winston.transports.File, { name: 'combined-file', filename: 'combined.log' });
 }
 
-export function logToLoggly(token: string, subdomain: string, tags: string[] = [], debug = false) {
-	logger.verbose(`logToLoggly("${token}", "${subdomain}", ${JSON.stringify(tags)}, ${debug})`);
+export function logToLoggly(token: string, subdomain: string, tags: string[] = []) {
+	logger.debug(`logToLoggly("${token}", "${subdomain}", ${JSON.stringify(tags)}, ${config.debug})`);
 	logger.add(winston.transports.Loggly, {
 		json: true,
-		level: debug ? 'debug' : 'info',
+		level: config.debug ? 'debug' : 'info',
 		subdomain,
 		tags: ['Winston-NodeJS', ...tags],
 		token

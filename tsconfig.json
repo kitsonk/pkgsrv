@@ -12,6 +12,9 @@
       "chai-as-promised",
       "intern",
       "sinon-chai"
+    ],
+    "typeRoots": [
+      "./types"
     ]
   },
   "include": [
