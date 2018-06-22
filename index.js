@@ -1,3 +1,1 @@
-#!/usr/bin/env node
-
-module.exports = require('./lib/index');
+module.exports = require('./lib/app').default;
