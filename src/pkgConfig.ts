@@ -15,15 +15,15 @@ export interface Tags {
 const configurationMap = new Map<string, Configuration>();
 
 export async function get(basePath: string, pkg: string): Promise<Configuration | null> {
-	logger.verbose(`pkgConfig.get("${basePath}", "${pkg}")`);
+	logger.debug(`pkgConfig.get("${basePath}", "${pkg}")`);
 	if (configurationMap.has(pkg)) {
-		logger.verbose(`Cached config for package: ${pkg}`);
+		logger.debug(`Cached config for package: ${pkg}`);
 		return configurationMap.get(pkg)!;
 	}
 	const configFilename = join(basePath, pkg, 'config.json');
 	let configStat: Stats;
 	try {
-		logger.verbose(`stat("${configFilename}")`);
+		logger.debug(`stat("${configFilename}")`);
 		configStat = await stat(configFilename);
 	} catch (e) {
 		logger.warn(`No configuration file for package: ${pkg}`);
@@ -40,7 +40,7 @@ export async function get(basePath: string, pkg: string): Promise<Configuration 
 			return null;
 		}
 		configurationMap.set(pkg, config);
-		logger.verbose(`config = ${configJson}`);
+		logger.debug(`config = ${configJson}`);
 		return config;
 	} else {
 		logger.warn(`"config.json" is not a file for package: ${pkg}`);

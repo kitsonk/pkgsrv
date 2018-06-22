@@ -42,6 +42,12 @@ export default async function fetchModule(ctx: Context): Promise<void> {
 		);
 	}
 	ctx.assert(version, 400);
+	if (version !== pkgSemverOrTag) {
+		const redirectPath = ns ? `/@${ns}/${pkgId}@${version}/${mid}` : `/${pkgId}@${version}/${mid}`;
+		ctx.redirect(redirectPath);
+		logger.debug(`redirect from: "${ctx.path}" to: "${redirectPath}"`);
+		return;
+	}
 	const modulePath = join(basePath, pkgName, version!, ...mid.split('/'));
 	logger.debug(`Resolved path: ${modulePath}`);
 	const moduleStat = await stat(modulePath);
