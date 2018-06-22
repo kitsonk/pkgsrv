@@ -1,4 +1,6 @@
-let basePath = __dirname;
+import { join } from 'path';
+
+let basePath = join(process.cwd(), 'packages');
 let debug = false;
 
 export default {

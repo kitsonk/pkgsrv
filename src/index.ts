@@ -1,6 +1,7 @@
 import Koa from 'koa';
 import conditional from 'koa-conditional-get';
 import etag from 'koa-etag';
+import { join } from 'path';
 import yargs from 'yargs';
 import config from './config';
 import logger, { logToConsole, logToFile, logToLoggly } from './logger';
@@ -14,7 +15,7 @@ const argv = yargs
 	.usage('usage: $0')
 	.option('b', {
 		alias: 'base',
-		default: process.cwd(),
+		default: join(process.cwd(), 'packages'),
 		describe: 'path to serve as base for server',
 		type: 'string'
 	})
