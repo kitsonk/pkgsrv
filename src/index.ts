@@ -1,7 +1,9 @@
-import yargs from 'yargs';
-import logger, { logToConsole, logToFile, logToLoggly } from './logger';
 import Koa from 'koa';
+import conditional from 'koa-conditional-get';
+import etag from 'koa-etag';
+import yargs from 'yargs';
 import config from './config';
+import logger, { logToConsole, logToFile, logToLoggly } from './logger';
 import logRequest from './middleware/logRequest';
 import router from './router';
 
@@ -73,6 +75,8 @@ const app = new Koa();
 
 // Setup middleware
 app.use(logRequest);
+app.use(conditional());
+app.use(etag());
 app.use(router.routes());
 app.use(router.allowedMethods());
 

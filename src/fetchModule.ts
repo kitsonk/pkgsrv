@@ -47,7 +47,8 @@ export default async function fetchModule(ctx: Context): Promise<void> {
 	const moduleStat = await stat(modulePath);
 
 	if (moduleStat.isFile()) {
-		ctx.type = extname(modulePath);
+		const ext = extname(modulePath);
+		ctx.type = ext === '.ts' ? 'application/typescript' : extname(modulePath);
 		ctx.body = createReadStream(modulePath);
 	}
 }

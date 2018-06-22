@@ -12,11 +12,16 @@ async function isDirectory(path: string): Promise<boolean> {
 	return (await stat(path)).isDirectory();
 }
 
+const versionsMap = new Map<string, string[]>();
+
 /**
  * Resolve to an array of semantic versions of a package from the file system
  * @param path The path of which to return the version sub directories
  */
 export async function getVersions(path: string): Promise<string[]> {
+	if (versionsMap.has(path)) {
+		return versionsMap.get(path)!;
+	}
 	let files: string[] = [];
 	try {
 		files = await readdir(path);
@@ -29,6 +34,7 @@ export async function getVersions(path: string): Promise<string[]> {
 			directories.push(files[i]);
 		}
 	}
+	versionsMap.set(path, directories);
 	return directories;
 }
 
