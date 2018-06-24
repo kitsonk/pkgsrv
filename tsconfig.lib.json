@@ -1,9 +1,9 @@
 {
     "extends": "./tsconfig.json",
     "compilerOptions": {
-        "declaration": true,
         "inlineSources": true,
         "outDir": "lib",
+        "removeComments": false,
         "sourceMap": true
     },
     "include": [

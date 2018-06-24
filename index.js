@@ -1,1 +1,1 @@
-module.exports = require('./lib/app').default;
+module.exports = require('./lib/index');

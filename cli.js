@@ -4,4 +4,4 @@ require('ts-node').register({
 	project: './tsconfig.json'
 });
 
-module.exports = require('./src/index');
+module.exports = require('./src/cli');
