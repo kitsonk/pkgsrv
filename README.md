@@ -11,7 +11,11 @@ A server providing source packages based on semantic versioning.
 $ npm install pkgsrv
 ```
 
-## Command line options
+## Usage
+
+### Command line
+
+The package installs a binary under `node_modules/.bin/pkgsrv`.  It provides information under `--help`.  It supports the following command line options.
 
 |Option|Default|Description|
 |------|-------|-----------|
@@ -21,6 +25,38 @@ $ npm install pkgsrv
 |`-p` or `--port`|3000|The port that the server should listen on.|
 |`-s` or `--subdomain`| |Send logs to Loggly on the provided subdomain.|
 |`-t` or `--token`| |Authorisation token to utilise when sending log events to Loggly.|
+
+## Module
+
+The package can also be imported and used as a module.  The package will export a function named `start()` which will startup the package server:
+
+```js
+const start = require('pkgsrv').start;
+
+start();
+```
+
+Start can take a single argument of options:
+
+|Option|Default|Description|
+|------|-------|-----------|
+|`baseName`|CWD + `/packages`|Set the base path of where packages are to be served up.|
+|`debug`|`false`|Enable a higher level of logging at a _debug_ level and other diagnostic information.|
+|`logToFile`|`false`|Log events to a file.|
+|`port`|3000|The port that the server should listen on.|
+|`subdomain`| |Send logs to Loggly on the provided subdomain.|
+|`token`| |Authorisation token to utilise when sending log events to Loggly.|
+
+So for example to enable debug logging and listen on port `80` you would do the following:
+
+```js
+const start = require('pkgsrv').start;
+
+start({
+  debug: true,
+  port: 80
+});
+```
 
 ## How it works
 
